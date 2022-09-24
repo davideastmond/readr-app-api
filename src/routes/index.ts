@@ -1,2 +1,3 @@
 import newsRouter from "./news/news.route";
-export { newsRouter };
+import authRouter from "./auth/auth.route";
+export { newsRouter, authRouter };

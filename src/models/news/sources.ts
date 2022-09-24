@@ -1,9 +1,8 @@
-
 export const NEWS_SOURCES = [
-  "abc-news", 
+  "abc-news",
   "abc-news-au",
   "ars-technica",
-  "associated-press", 
+  "associated-press",
   "axios",
   "bbc-news",
   "bbc-sport",
@@ -15,11 +14,9 @@ export const NEWS_SOURCES = [
   "engadget",
   "nbc-news",
   "espn",
-  "entertainment-weekly",
   "financial-post",
   "fortune",
   "fox-sports",
-  "google-news",
   "ign",
   "msnbc",
   "mtv-news",
@@ -45,4 +42,4 @@ export const NEWS_SOURCES = [
   "usa-today",
   "vice-news",
   "wired",
-]
+];

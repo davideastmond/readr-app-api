@@ -2,7 +2,8 @@ require("dotenv").config();
 import cors from "cors";
 import express from "express";
 import { createServer } from "http";
-import { newsRouter } from "./routes";
+import { newsRouter, authRouter } from "./routes";
+
 const app = express();
 const httpServer = createServer(app);
 const bodyParser = require("body-parser");
@@ -19,4 +20,5 @@ app.use(
 app.use(bodyParser.json());
 
 app.use("/api/news", newsRouter);
+app.use("/api/auth", authRouter);
 export default httpServer;

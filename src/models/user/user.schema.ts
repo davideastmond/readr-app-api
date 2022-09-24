@@ -1,10 +1,11 @@
 import { Schema, model, SchemaOptions } from "mongoose";
-import { IUser, IUserDocument, IUserModel } from "./user.types";
+import { createNewUser } from "../../controllers/user/create/user.create.controller";
+import { IUser, IUserDocument, IUserModel } from "./user.schema.types";
 
 interface SchemaOptionsWithPojoToMixed extends SchemaOptions {
   typePojoToMixed: boolean;
 }
-const userSchema = new Schema<IUser>(
+const userSchema = new Schema<IUser, IUserModel>(
   {
     firstName: {
       type: String,
@@ -17,7 +18,7 @@ const userSchema = new Schema<IUser>(
     email: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     hashedPassword: {
       type: String,
@@ -26,20 +27,21 @@ const userSchema = new Schema<IUser>(
     configuration: {
       topics: {
         type: [String],
-        default: []
+        default: [],
       },
       favorites: {
-        type: [{ url: String, title: String }]
-      }
+        type: [{ url: String, title: String }],
+      },
     },
-    countryCode: { type: String, required: true, default: "us" }
+    countryCode: { type: String, required: true, default: "us" },
   },
   {
     timestamps: true,
     strict: false,
     typePojoToMixed: false,
   } as SchemaOptionsWithPojoToMixed
-)
+);
 
+userSchema.static("createNewUser", createNewUser);
 export default userSchema;
 export const UserModel = model<IUserDocument, IUserModel>("user", userSchema);
