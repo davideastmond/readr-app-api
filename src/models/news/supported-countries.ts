@@ -13,11 +13,11 @@ export const SUPPORTED_COUNTRIES: SupportedCountry[] = [
     label: "United States",
   },
   {
-    id: "gb",
+    id: "ie",
     label: "Ireland",
   },
   {
-    id: "ie",
+    id: "gb",
     label: "Great Britain",
   },
   {
