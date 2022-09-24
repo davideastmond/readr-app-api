@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 import { SUPPORTED_COUNTRIES } from "../../../models/news/supported-countries";
-import { StringHelpers } from "../../../utils/string-helpers";
+import { StringHelper } from "../../../utils/string-helpers";
 export const registrationValidator = (): any[] => {
   return [
     body("email").exists().isEmail().trim().escape(),
@@ -14,7 +14,7 @@ export const registrationValidator = (): any[] => {
       return true;
     }),
     body("plainTextPassword").custom((value: string) => {
-      if (!StringHelpers.validatePasswordComplexity(value)) {
+      if (!StringHelper.validatePasswordComplexity(value)) {
         throw new Error(
           "Password should be at least 8 characters, contain a number, an uppercase letter and a special character"
         );
