@@ -1,5 +1,8 @@
 import { Schema, model, SchemaOptions } from "mongoose";
 import { createNewUser } from "../../controllers/user/create/user.create.controller";
+import { deleteBookmark } from "../../controllers/user/delete/delete.bookmark.controller";
+import { putBookmark } from "../../controllers/user/put/put.bookmark.controller";
+
 import { IUser, IUserDocument, IUserModel } from "./user.schema.types";
 
 interface SchemaOptionsWithPojoToMixed extends SchemaOptions {
@@ -29,8 +32,10 @@ const userSchema = new Schema<IUser, IUserModel>(
         type: [String],
         default: [],
       },
-      favorites: {
-        type: [{ url: String, title: String }],
+      bookmarks: {
+        type: [
+          { url: String, title: String, urlToImage: String, createdAt: Date },
+        ],
       },
     },
     countryCode: { type: String, required: true, default: "us" },
@@ -42,6 +47,10 @@ const userSchema = new Schema<IUser, IUserModel>(
   } as SchemaOptionsWithPojoToMixed
 );
 
+userSchema.method("deleteBookmark", deleteBookmark);
+userSchema.method("putBookmark", putBookmark);
+
 userSchema.static("createNewUser", createNewUser);
+
 export default userSchema;
 export const UserModel = model<IUserDocument, IUserModel>("user", userSchema);

@@ -7,10 +7,16 @@ export interface IUser {
   countryCode: string;
   configuration: {
     topics: string[];
-    favorites: { url: string; title: string }[];
+    bookmarks: IArticleBookmark[];
   };
 }
 
+export interface IArticleBookmark {
+  url: string;
+  title: string;
+  urlToImage: string;
+  createdAt: Date;
+}
 export interface ISecureUser {
   _id: string;
   firstName: string;
@@ -18,7 +24,7 @@ export interface ISecureUser {
   countryCode: string;
   configuration: {
     topics: string[];
-    favorites: { url: string; title: string }[];
+    bookmarks: IArticleBookmark[];
   };
 }
 
@@ -30,7 +36,18 @@ export interface IRegistrationSubmissionData {
   countryCode: string;
 }
 
-export interface IUserDocument extends IUser, Document {}
+export interface IUserDocument extends IUser, Document {
+  deleteBookmark: (articleUrl: string) => Promise<ISecureUser>;
+  putBookmark: ({
+    url,
+    title,
+    urlToImage,
+  }: {
+    url: string;
+    title: string;
+    urlToImage: string;
+  }) => Promise<ISecureUser>;
+}
 
 export interface IUserModel extends Model<IUserDocument> {
   createNewUser: (data: IRegistrationSubmissionData) => Promise<ISecureUser>;
