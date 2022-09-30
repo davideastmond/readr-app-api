@@ -17,13 +17,11 @@ export const processUserRegistration = async (req: Request, res: Response) => {
     });
     return res.status(201).send(user);
   } catch (err) {
-    return res
-      .status(500)
-      .send({
-        errors: [
-          { msg: `${err.message}`, param: "n/a", location: "authentication" },
-        ],
-      });
+    return res.status(500).send({
+      errors: [
+        { msg: `${err.message}`, param: "n/a", location: "authentication" },
+      ],
+    });
   }
 };
 
@@ -36,46 +34,40 @@ export const authenticateEmailPassword = async (
     const { email, plainTextPassword } = req.body;
     const user = await UserModel.findOne({ email: email });
     if (!user)
-      return res
-        .status(404)
-        .send({
-          errors: [
-            {
-              msg: "Invalid e-mail or password combination",
-              param: "n/a",
-              location: "authentication",
-            },
-          ],
-        });
+      return res.status(404).send({
+        errors: [
+          {
+            msg: "Invalid e-mail or password combination",
+            param: "n/a",
+            location: "authentication",
+          },
+        ],
+      });
     const isValidPassword = await CryptoService.checkPassword({
       hashedPassword: user.hashedPassword,
       plainTextPassword: plainTextPassword,
     });
     if (!isValidPassword)
-      return res
-        .status(404)
-        .send({
-          errors: [
-            {
-              msg: "Invalid e-mail or password combination",
-              param: "n/a",
-              location: "authentication",
-            },
-          ],
-        });
+      return res.status(404).send({
+        errors: [
+          {
+            msg: "Invalid e-mail or password combination",
+            param: "n/a",
+            location: "authentication",
+          },
+        ],
+      });
 
     // Pass the user on and continue the request
     res.locals.secureUser = UserUtils.toSecureUser(user);
     res.locals.action = "login";
     next();
   } catch (err) {
-    return res
-      .status(500)
-      .send({
-        errors: [
-          { msg: `${err.message}`, param: "n/a", location: "authentication" },
-        ],
-      });
+    return res.status(500).send({
+      errors: [
+        { msg: `${err.message}`, param: "n/a", location: "authentication" },
+      ],
+    });
   }
 };
 
@@ -85,17 +77,15 @@ export const generateToken = async (req: Request, res: Response) => {
   let action = res.locals.action; // grab what's here. If it's undefined, we'll assume it's some other kind of action request
 
   if (!secureUser)
-    return res
-      .status(500)
-      .send({
-        errors: [
-          {
-            msg: "user is not defined on response object",
-            param: "n/a",
-            location: "authentication",
-          },
-        ],
-      });
+    return res.status(500).send({
+      errors: [
+        {
+          msg: "user is not defined on response object",
+          param: "n/a",
+          location: "authentication",
+        },
+      ],
+    });
   if (!action) action = "default";
   const partialSession = {
     _id: secureUser._id,
@@ -109,12 +99,14 @@ export const generateToken = async (req: Request, res: Response) => {
       user: secureUser,
     });
   } catch (err) {
-    return res
-      .status(500)
-      .send({
-        errors: [
-          { msg: `${err.message}`, param: "n/a", location: "authentication" },
-        ],
-      });
+    return res.status(500).send({
+      errors: [
+        {
+          msg: `${err.message}: error generating token`,
+          param: "n/a",
+          location: "authentication",
+        },
+      ],
+    });
   }
 };
