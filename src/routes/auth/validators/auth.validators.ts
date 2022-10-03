@@ -3,7 +3,7 @@ import { SUPPORTED_COUNTRIES } from "../../../models/news/supported-countries";
 import { StringHelper } from "../../../utils/string-helpers";
 export const registrationValidator = (): any[] => {
   return [
-    body("email").exists().isEmail().trim().escape(),
+    body("email").exists().isEmail().normalizeEmail(),
     body("firstName").exists().trim().escape(),
     body("lastName").exists().trim().escape(),
     body("countryCode").custom((value: string) => {
