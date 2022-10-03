@@ -19,3 +19,22 @@ export const addFavorite = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const putTopics = async (req: Request, res: Response) => {
+  try {
+    const { user }: { user: IUserDocument } = res.locals as any;
+    const { topics } = req.body;
+    const updatedUser = await user.putTopics(topics);
+    return res.status(201).send(updatedUser);
+  } catch (err) {
+    return res.status(500).send({
+      errors: [
+        {
+          msg: `${err.message} Can't complete operation - add user topics`,
+          param: "n/a",
+          location: "add user topics",
+        },
+      ],
+    });
+  }
+};
