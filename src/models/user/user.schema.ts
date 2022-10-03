@@ -1,7 +1,12 @@
 import { Schema, model, SchemaOptions } from "mongoose";
 import { createNewUser } from "../../controllers/user/create/user.create.controller";
-import { deleteBookmark } from "../../controllers/user/delete/delete.bookmark.controller";
+import {
+  deleteAllBookmarks,
+  deleteBookmarks,
+} from "../../controllers/user/delete/delete.bookmark.controller";
+import { deleteTopics } from "../../controllers/user/delete/delete.topics.controller";
 import { putBookmark } from "../../controllers/user/put/put.bookmark.controller";
+import { putTopics } from "../../controllers/user/put/put.topics.controller";
 
 import { IUser, IUserDocument, IUserModel } from "./user.schema.types";
 
@@ -36,6 +41,7 @@ const userSchema = new Schema<IUser, IUserModel>(
         type: [
           { url: String, title: String, urlToImage: String, createdAt: Date },
         ],
+        default: [],
       },
     },
     countryCode: { type: String, required: true, default: "us" },
@@ -47,9 +53,11 @@ const userSchema = new Schema<IUser, IUserModel>(
   } as SchemaOptionsWithPojoToMixed
 );
 
-userSchema.method("deleteBookmark", deleteBookmark);
+userSchema.method("deleteBookmarks", deleteBookmarks);
 userSchema.method("putBookmark", putBookmark);
-
+userSchema.method("deleteAllBookmarks", deleteAllBookmarks);
+userSchema.method("putTopics", putTopics);
+userSchema.method("deleteTopics", deleteTopics);
 userSchema.static("createNewUser", createNewUser);
 
 export default userSchema;

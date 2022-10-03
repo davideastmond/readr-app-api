@@ -4,14 +4,20 @@ import {
 } from "../../../models/user/user.schema.types";
 import { UserUtils } from "../utils/user-utils";
 
-export async function deleteBookmark(
+export async function deleteBookmarks(
   this: IUserDocument,
-  articleUrl: string
+  articleUrls: string[]
 ): Promise<ISecureUser> {
   const articleFavorites = this.configuration.bookmarks.filter(
-    (article) => article.url !== articleUrl
+    (article) => !articleUrls.includes(article.url)
   );
   this.configuration.bookmarks = articleFavorites;
+  const updatedUser = await this.save();
+  return UserUtils.toSecureUser(updatedUser);
+}
+
+export async function deleteAllBookmarks(this: IUserDocument) {
+  this.configuration.bookmarks = [];
   const updatedUser = await this.save();
   return UserUtils.toSecureUser(updatedUser);
 }

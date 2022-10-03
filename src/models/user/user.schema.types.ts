@@ -37,7 +37,7 @@ export interface IRegistrationSubmissionData {
 }
 
 export interface IUserDocument extends IUser, Document {
-  deleteBookmark: (articleUrl: string) => Promise<ISecureUser>;
+  deleteBookmarks: (articleUrls: string[]) => Promise<ISecureUser>;
   putBookmark: ({
     url,
     title,
@@ -47,6 +47,8 @@ export interface IUserDocument extends IUser, Document {
     title: string;
     urlToImage: string;
   }) => Promise<ISecureUser>;
+  putTopics: (topics: string[]) => Promise<ISecureUser>;
+  deleteTopics: (topicsToDelete: string[]) => Promise<ISecureUser>;
 }
 
 export interface IUserModel extends Model<IUserDocument> {
