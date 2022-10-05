@@ -41,7 +41,8 @@
     "start": "node dist/start.js",
     "watch-tsc": "tsc -w",
     "dev": "NODE_ENV=development nodemon",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "typecheck": "npm run tsc && rm -r ./dist"
   },
   "repository": {
     "type": "git",
