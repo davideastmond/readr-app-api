@@ -2,8 +2,9 @@ require("dotenv");
 import { Request, Response, NextFunction } from "express";
 import { IS_PRODUCTION } from "../../environment";
 
-const API_KEY = IS_PRODUCTION ? 
-  process.env.PRODUCTION_API_KEY : process.env.DEV_APP_API_KEY
+const API_KEY = IS_PRODUCTION
+  ? process.env.PRODUCTION_APP_API_KEY
+  : process.env.DEV_APP_API_KEY;
 
 export function validateAPIKey(
   req: Request,
