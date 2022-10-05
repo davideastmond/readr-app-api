@@ -15,6 +15,7 @@ export interface IArticleBookmark {
   url: string;
   title: string;
   urlToImage: string;
+  source: { name: string; id: string };
   createdAt: Date;
 }
 export interface ISecureUser {
@@ -38,14 +39,17 @@ export interface IRegistrationSubmissionData {
 
 export interface IUserDocument extends IUser, Document {
   deleteBookmarks: (articleUrls: string[]) => Promise<ISecureUser>;
+  deleteAllBookmarks: () => Promise<ISecureUser>;
   putBookmark: ({
     url,
     title,
     urlToImage,
+    source,
   }: {
     url: string;
     title: string;
     urlToImage: string;
+    source: { name: string; id: string };
   }) => Promise<ISecureUser>;
   putTopics: (topics: string[]) => Promise<ISecureUser>;
   deleteTopics: (topicsToDelete: string[]) => Promise<ISecureUser>;

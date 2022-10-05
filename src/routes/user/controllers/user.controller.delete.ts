@@ -38,3 +38,21 @@ export const deleteTopic = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const deleteAllBookmarks = async (req: Request, res: Response) => {
+  try {
+    const { user }: { user: IUserDocument } = res.locals as any;
+    const refreshedUser = await user.deleteAllBookmarks();
+    return res.status(201).send(refreshedUser);
+  } catch (err) {
+    return res.status(500).send({
+      errors: [
+        {
+          msg: `${err.message}: can't delete all bookmarks`,
+          param: "n/a",
+          location: "delete topics",
+        },
+      ],
+    });
+  }
+};

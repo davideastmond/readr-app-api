@@ -39,7 +39,13 @@ const userSchema = new Schema<IUser, IUserModel>(
       },
       bookmarks: {
         type: [
-          { url: String, title: String, urlToImage: String, createdAt: Date },
+          {
+            url: String,
+            title: String,
+            urlToImage: String,
+            createdAt: Date,
+            source: { name: String, id: String },
+          },
         ],
         default: [],
       },
@@ -54,10 +60,10 @@ const userSchema = new Schema<IUser, IUserModel>(
 );
 
 userSchema.method("deleteBookmarks", deleteBookmarks);
-userSchema.method("putBookmark", putBookmark);
 userSchema.method("deleteAllBookmarks", deleteAllBookmarks);
-userSchema.method("putTopics", putTopics);
 userSchema.method("deleteTopics", deleteTopics);
+userSchema.method("putBookmark", putBookmark);
+userSchema.method("putTopics", putTopics);
 userSchema.static("createNewUser", createNewUser);
 
 export default userSchema;
