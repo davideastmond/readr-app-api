@@ -4,7 +4,7 @@ import { IS_PRODUCTION } from "../../../environment";
 import { INewsApiResponse } from "../../../models/news/news-api-response/news-api-response.types";
 import { NEWS_SOURCES } from "../../../models/news/sources";
 const newsApiKey = IS_PRODUCTION
-  ? process.env.PRODUCTION_API_KEY
+  ? process.env.PRODUCTION_NEWS_API_KEY
   : process.env.DEV_NEWS_API_KEY;
 
 const newsSources = NEWS_SOURCES.join(",");
