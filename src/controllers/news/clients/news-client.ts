@@ -1,5 +1,6 @@
 require("dotenv").config();
 import axios from "axios";
+import dayjs from "dayjs";
 import { IS_PRODUCTION } from "../../../environment";
 import { INewsApiResponse } from "../../../models/news/news-api-response/news-api-response.types";
 import { NEWS_SOURCES } from "../../../models/news/sources";
@@ -33,9 +34,10 @@ export class NewsClient {
     pageSize = 10
   ): Promise<INewsApiResponse> {
     const requestQueue = topics.map((topic) => {
+      const { from, to } = this.getDateRange();
       return this.api({
         method: "GET",
-        url: `everything?q=${topic}&sources=${newsSources}&sortBy=relevancy&pageSize=${pageSize}`,
+        url: `everything?q=${topic}&from=${from}&to=${to}&sources=${newsSources}&sortBy=relevancy&pageSize=${pageSize}`,
       });
     });
 
@@ -51,5 +53,15 @@ export class NewsClient {
       { status: "", totalResults: 0, articles: [] }
     );
     return aggregatedResults;
+  }
+
+  private getDateRange(): { from: string; to: string } {
+    const now = dayjs();
+    const threeDaysAgo = dayjs().subtract(3, "days");
+
+    return {
+      from: threeDaysAgo.format("YYYY-MM-DD"),
+      to: now.format("YYYY-MM-DD"),
+    };
   }
 }
