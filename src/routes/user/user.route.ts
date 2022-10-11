@@ -10,7 +10,7 @@ import {
   deleteBookmark,
   deleteTopic,
 } from "./controllers/user.controller.delete";
-import { getFeed } from "./controllers/user.controller.get";
+import { getFeed, getUserEmail } from "./controllers/user.controller.get";
 import { addBookmark, putTopics } from "./controllers/user.controller.put";
 import {
   deleteFavoriteArticleValidator,
@@ -79,6 +79,13 @@ router.delete(
   deleteTopic
 );
 
+router.get(
+  "/email",
+  validateAPIKey,
+  jwtVerifyMiddleWare,
+  getUser,
+  getUserEmail
+);
 // Get articles from newsApi based user's topics
 router.get("/feed", validateAPIKey, jwtVerifyMiddleWare, getUser, getFeed);
 export default router;

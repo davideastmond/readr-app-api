@@ -28,3 +28,8 @@ export const getFeed = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getUserEmail = async (req: Request, res: Response) => {
+  const { user }: { user: IUserDocument } = res.locals as any;
+  return res.status(200).send({ _id: user._id, email: user.email });
+};
