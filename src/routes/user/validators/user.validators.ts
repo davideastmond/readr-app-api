@@ -15,6 +15,9 @@ export const deleteFavoriteArticleValidator = (): any[] => {
   return [body("urls").exists().isArray()];
 };
 
+export const putUpdatePasswordValidator = (): any[] => {
+  return [body("password").exists().isString()];
+};
 export const topicValidator = (): any[] => {
   return [
     body("topics")

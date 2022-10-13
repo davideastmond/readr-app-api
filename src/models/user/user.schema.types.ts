@@ -53,6 +53,7 @@ export interface IUserDocument extends IUser, Document {
   }) => Promise<ISecureUser>;
   putTopics: (topics: string[]) => Promise<ISecureUser>;
   deleteTopics: (topicsToDelete: string[]) => Promise<ISecureUser>;
+  putUpdateUserPassword: (plainTextPassword: string) => Promise<void>;
 }
 
 export interface IUserModel extends Model<IUserDocument> {

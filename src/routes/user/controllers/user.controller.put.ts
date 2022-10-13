@@ -43,3 +43,23 @@ export const putTopics = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const putUpdatePasswordData = async (req: Request, res: Response) => {
+  try {
+    const { user }: { user: IUserDocument } = res.locals as any;
+    const { password } = req.body;
+
+    await user.putUpdateUserPassword(password);
+    return res.status(200).send({ status: "ok" });
+  } catch (err) {
+    return res.status(500).send({
+      errors: [
+        {
+          msg: `${err.message} Can't complete operation - put update password`,
+          param: "n/a",
+          location: "put update password",
+        },
+      ],
+    });
+  }
+};

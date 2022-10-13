@@ -11,10 +11,15 @@ import {
   deleteTopic,
 } from "./controllers/user.controller.delete";
 import { getFeed, getUserEmail } from "./controllers/user.controller.get";
-import { addBookmark, putTopics } from "./controllers/user.controller.put";
+import {
+  addBookmark,
+  putTopics,
+  putUpdatePasswordData,
+} from "./controllers/user.controller.put";
 import {
   deleteFavoriteArticleValidator,
   putBookmarkValidator,
+  putUpdatePasswordValidator,
   topicValidator,
 } from "./validators/user.validators";
 
@@ -65,6 +70,17 @@ router.put(
   validateRouteRequest,
   getUser,
   putTopics
+);
+
+// Secure update user password
+router.put(
+  "/password",
+  validateAPIKey,
+  jwtVerifyMiddleWare,
+  putUpdatePasswordValidator(),
+  validateRouteRequest,
+  getUser,
+  putUpdatePasswordData
 );
 
 // Delete a topic, or if there is an

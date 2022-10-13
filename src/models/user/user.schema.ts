@@ -7,6 +7,7 @@ import {
 import { deleteTopics } from "../../controllers/user/delete/delete.topics.controller";
 import { putBookmark } from "../../controllers/user/put/put.bookmark.controller";
 import { putTopics } from "../../controllers/user/put/put.topics.controller";
+import { putUpdateUserPassword } from "../../controllers/user/put/put.update-password.controller";
 
 import { IUser, IUserDocument, IUserModel } from "./user.schema.types";
 
@@ -64,6 +65,7 @@ userSchema.method("deleteAllBookmarks", deleteAllBookmarks);
 userSchema.method("deleteTopics", deleteTopics);
 userSchema.method("putBookmark", putBookmark);
 userSchema.method("putTopics", putTopics);
+userSchema.method("putUpdateUserPassword", putUpdateUserPassword);
 userSchema.static("createNewUser", createNewUser);
 
 export default userSchema;
