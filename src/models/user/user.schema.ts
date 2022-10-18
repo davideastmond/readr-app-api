@@ -50,6 +50,16 @@ const userSchema = new Schema<IUser, IUserModel>(
         ],
         default: [],
       },
+      sources: {
+        option: {
+          type: String,
+          default: "",
+        },
+        list: {
+          type: [{ name: String, id: String }],
+          default: [],
+        },
+      },
     },
     countryCode: { type: String, required: true, default: "us" },
   },

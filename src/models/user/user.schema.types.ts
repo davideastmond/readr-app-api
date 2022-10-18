@@ -8,6 +8,10 @@ export interface IUser {
   configuration: {
     topics: string[];
     bookmarks: IArticleBookmark[];
+    sources: {
+      option: string;
+      list: INewsSource[];
+    };
   };
 }
 
@@ -15,8 +19,13 @@ export interface IArticleBookmark {
   url: string;
   title: string;
   urlToImage: string;
-  source: { name: string; id: string };
+  source: INewsSource;
   createdAt: Date;
+}
+
+export interface INewsSource {
+  name: string;
+  id: string;
 }
 export interface ISecureUser {
   _id: string;
@@ -26,6 +35,10 @@ export interface ISecureUser {
   configuration: {
     topics: string[];
     bookmarks: IArticleBookmark[];
+    sources: {
+      option: string;
+      list: INewsSource[];
+    };
   };
 }
 
