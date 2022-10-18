@@ -8,7 +8,7 @@ const newsApiKey = IS_PRODUCTION
   ? process.env.PRODUCTION_NEWS_API_KEY
   : process.env.DEV_NEWS_API_KEY;
 
-const newsSources = NEWS_SOURCES.join(",");
+const newsSources = Object.keys(NEWS_SOURCES).join(",");
 
 export class NewsClient {
   private api;
