@@ -53,7 +53,7 @@ const userSchema = new Schema<IUser, IUserModel>(
       sources: {
         option: {
           type: String,
-          default: "",
+          default: "none",
         },
         list: {
           type: [{ name: String, id: String }],

@@ -9,12 +9,13 @@ export interface IUser {
     topics: string[];
     bookmarks: IArticleBookmark[];
     sources: {
-      option: string;
+      option: TCustomSourceFilter;
       list: INewsSource[];
     };
   };
 }
 
+export type TCustomSourceFilter = "none" | "onlyInclude" | "onlyExclude";
 export interface IArticleBookmark {
   url: string;
   title: string;
