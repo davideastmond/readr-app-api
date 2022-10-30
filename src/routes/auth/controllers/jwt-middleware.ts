@@ -89,11 +89,9 @@ export const getUser = async (
             .send({ error: "getUser-404: Invalid session user" });
         }
       } catch (err: any) {
-        return res
-          .status(500)
-          .send({
-            error: "getUser-500: Server error - error conneting to database",
-          });
+        return res.status(500).send({
+          error: "getUser-500: Server error - error connecting to database",
+        });
       }
     } else {
       return res
