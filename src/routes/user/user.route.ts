@@ -11,6 +11,7 @@ import {
   deleteTopic,
 } from "./controllers/user.controller.delete";
 import { getFeed, getUserEmail } from "./controllers/user.controller.get";
+import { patchUserSources } from "./controllers/user.controller.patch";
 import {
   addBookmark,
   putTopics,
@@ -18,6 +19,7 @@ import {
 } from "./controllers/user.controller.put";
 import {
   deleteFavoriteArticleValidator,
+  patchNewsSourcesValidator,
   putBookmarkValidator,
   putUpdatePasswordValidator,
   topicValidator,
@@ -101,6 +103,16 @@ router.get(
   jwtVerifyMiddleWare,
   getUser,
   getUserEmail
+);
+
+router.patch(
+  "/source",
+  validateAPIKey,
+  jwtVerifyMiddleWare,
+  patchNewsSourcesValidator(),
+  validateRouteRequest,
+  getUser,
+  patchUserSources
 );
 // Get articles from newsApi based user's topics
 router.get("/feed", validateAPIKey, jwtVerifyMiddleWare, getUser, getFeed);

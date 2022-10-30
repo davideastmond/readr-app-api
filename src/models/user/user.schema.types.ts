@@ -68,6 +68,10 @@ export interface IUserDocument extends IUser, Document {
   putTopics: (topics: string[]) => Promise<ISecureUser>;
   deleteTopics: (topicsToDelete: string[]) => Promise<ISecureUser>;
   putUpdateUserPassword: (plainTextPassword: string) => Promise<void>;
+  patchNewsSource: (sourceData: {
+    list: { id: string; name: string }[];
+    option: string;
+  }) => Promise<ISecureUser>;
 }
 
 export interface IUserModel extends Model<IUserDocument> {

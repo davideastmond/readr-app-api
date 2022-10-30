@@ -28,3 +28,18 @@ export const topicValidator = (): any[] => {
       }),
   ];
 };
+
+export const patchNewsSourcesValidator = (): any[] => {
+  return [
+    body("option").custom((value) => {
+      return ["none", "onlyInclude", "onlyExclude"].includes(value);
+    }),
+    body("list").isArray(),
+    body("list").custom((value: { id: string; name: string }[], { req }) => {
+      if (value.length === 0 && req.body.option === "none") return true;
+      return value.every((element) => {
+        return element.id && element.name;
+      });
+    }),
+  ];
+};
