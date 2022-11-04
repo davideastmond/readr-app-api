@@ -78,14 +78,20 @@ export const getUser = async (
   if (res.locals.session) {
     if (res.locals.session._id) {
       const { _id } = res.locals.session;
-      const user = await UserModel.findById(_id);
-      if (user) {
-        res.locals.user = user;
-        next();
-      } else {
-        return res
-          .status(404)
-          .send({ error: "getUser-404: Invalid session user" });
+      try {
+        const user = await UserModel.findById(_id);
+        if (user) {
+          res.locals.user = user;
+          next();
+        } else {
+          return res
+            .status(404)
+            .send({ error: "getUser-404: Invalid session user" });
+        }
+      } catch (err: any) {
+        return res.status(500).send({
+          error: "getUser-500: Server error - error connecting to database",
+        });
       }
     } else {
       return res
