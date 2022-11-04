@@ -15,6 +15,9 @@ export const deleteFavoriteArticleValidator = (): any[] => {
   return [body("urls").exists().isArray()];
 };
 
+export const putUpdatePasswordValidator = (): any[] => {
+  return [body("password").exists().isString()];
+};
 export const topicValidator = (): any[] => {
   return [
     body("topics")
@@ -23,5 +26,20 @@ export const topicValidator = (): any[] => {
       .customSanitizer((value: string[]) => {
         return value.map((v) => v.toLowerCase());
       }),
+  ];
+};
+
+export const patchNewsSourcesValidator = (): any[] => {
+  return [
+    body("option").custom((value) => {
+      return ["none", "onlyInclude", "onlyExclude"].includes(value);
+    }),
+    body("list").isArray(),
+    body("list").custom((value: { id: string; name: string }[], { req }) => {
+      if (value.length === 0 && req.body.option === "none") return true;
+      return value.every((element) => {
+        return element.id && element.name;
+      });
+    }),
   ];
 };

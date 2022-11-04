@@ -10,11 +10,18 @@ import {
   deleteBookmark,
   deleteTopic,
 } from "./controllers/user.controller.delete";
-import { getFeed } from "./controllers/user.controller.get";
-import { addBookmark, putTopics } from "./controllers/user.controller.put";
+import { getFeed, getUserEmail } from "./controllers/user.controller.get";
+import { patchUserSources } from "./controllers/user.controller.patch";
+import {
+  addBookmark,
+  putTopics,
+  putUpdatePasswordData,
+} from "./controllers/user.controller.put";
 import {
   deleteFavoriteArticleValidator,
+  patchNewsSourcesValidator,
   putBookmarkValidator,
+  putUpdatePasswordValidator,
   topicValidator,
 } from "./validators/user.validators";
 
@@ -67,6 +74,17 @@ router.put(
   putTopics
 );
 
+// Secure update user password
+router.put(
+  "/password",
+  validateAPIKey,
+  jwtVerifyMiddleWare,
+  putUpdatePasswordValidator(),
+  validateRouteRequest,
+  getUser,
+  putUpdatePasswordData
+);
+
 // Delete a topic, or if there is an
 // "all" flag set to true, delete all of the user's topics
 router.delete(
@@ -79,6 +97,23 @@ router.delete(
   deleteTopic
 );
 
+router.get(
+  "/email",
+  validateAPIKey,
+  jwtVerifyMiddleWare,
+  getUser,
+  getUserEmail
+);
+
+router.patch(
+  "/source",
+  validateAPIKey,
+  jwtVerifyMiddleWare,
+  patchNewsSourcesValidator(),
+  validateRouteRequest,
+  getUser,
+  patchUserSources
+);
 // Get articles from newsApi based user's topics
 router.get("/feed", validateAPIKey, jwtVerifyMiddleWare, getUser, getFeed);
 export default router;

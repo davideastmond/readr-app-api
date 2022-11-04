@@ -8,15 +8,25 @@ export interface IUser {
   configuration: {
     topics: string[];
     bookmarks: IArticleBookmark[];
+    sources: {
+      option: TCustomSourceFilter;
+      list: INewsSource[];
+    };
   };
 }
 
+export type TCustomSourceFilter = "none" | "onlyInclude" | "onlyExclude";
 export interface IArticleBookmark {
   url: string;
   title: string;
   urlToImage: string;
-  source: { name: string; id: string };
+  source: INewsSource;
   createdAt: Date;
+}
+
+export interface INewsSource {
+  name: string;
+  id: string;
 }
 export interface ISecureUser {
   _id: string;
@@ -26,6 +36,10 @@ export interface ISecureUser {
   configuration: {
     topics: string[];
     bookmarks: IArticleBookmark[];
+    sources: {
+      option: TCustomSourceFilter;
+      list: INewsSource[];
+    };
   };
 }
 
@@ -53,6 +67,11 @@ export interface IUserDocument extends IUser, Document {
   }) => Promise<ISecureUser>;
   putTopics: (topics: string[]) => Promise<ISecureUser>;
   deleteTopics: (topicsToDelete: string[]) => Promise<ISecureUser>;
+  putUpdateUserPassword: (plainTextPassword: string) => Promise<void>;
+  patchNewsSource: (sourceData: {
+    list: { id: string; name: string }[];
+    option: string;
+  }) => Promise<ISecureUser>;
 }
 
 export interface IUserModel extends Model<IUserDocument> {
