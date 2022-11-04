@@ -37,7 +37,7 @@ export interface ISecureUser {
     topics: string[];
     bookmarks: IArticleBookmark[];
     sources: {
-      option: string;
+      option: TCustomSourceFilter;
       list: INewsSource[];
     };
   };

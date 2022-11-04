@@ -13,7 +13,7 @@ export const getFeed = async (req: Request, res: Response) => {
       return res.status(200).send(headlines);
     } else {
       const newsClient = new NewsClient();
-      const customFeed = await newsClient.fetchFeed(topics);
+      const customFeed = await newsClient.fetchFeed(topics, user);
       return res.status(200).send(customFeed);
     }
   } catch (err) {

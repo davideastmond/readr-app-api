@@ -17,7 +17,11 @@ export async function patchNewsSource(
   } else {
     this.configuration.sources.list = sourceData.list;
   }
-  this.configuration.sources.option = sourceData.option;
+  if (sourceData.list.length === 0) {
+    this.configuration.sources.option = "none";
+  } else {
+    this.configuration.sources.option = sourceData.option;
+  }
   const refreshedUser = await this.save();
   return UserUtils.toSecureUser(refreshedUser);
 }
