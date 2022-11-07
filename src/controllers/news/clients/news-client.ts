@@ -13,6 +13,8 @@ const newsApiKey = IS_PRODUCTION
   : process.env.DEV_NEWS_API_KEY;
 
 const newsSources = Object.keys(NEWS_SOURCES).join(",");
+const HEADLINES_PAGE_SIZE = parseInt(process.env.HEADLINES_PAGE_SIZE) || 20;
+const FEED_PAGE_SIZE = parseInt(process.env.FEED_PAGE_SIZE) || 10;
 
 export class NewsClient {
   private api;
@@ -25,7 +27,9 @@ export class NewsClient {
       },
     });
   }
-  public async fetchHeadlines(pageSize = 20): Promise<INewsApiResponse> {
+  public async fetchHeadlines(
+    pageSize = HEADLINES_PAGE_SIZE
+  ): Promise<INewsApiResponse> {
     const res = await this.api({
       method: "GET",
       url: `top-headlines?sources=${newsSources}&pageSize=${pageSize}`,
@@ -36,7 +40,7 @@ export class NewsClient {
   public async fetchFeed(
     topics: string[],
     user: IUserDocument | ISecureUser,
-    pageSize = 10
+    pageSize = FEED_PAGE_SIZE
   ): Promise<INewsApiResponse> {
     const requestQueue = topics.map((topic) => {
       const { from, to } = this.getDateRange();
