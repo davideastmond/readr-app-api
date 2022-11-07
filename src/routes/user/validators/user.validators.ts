@@ -1,4 +1,7 @@
 import { body } from "express-validator";
+import { NEWS_SOURCES } from "../../../models/news/sources";
+
+const newsSources = Object.keys(NEWS_SOURCES);
 
 export const putBookmarkValidator = (): any[] => {
   return [
@@ -40,6 +43,20 @@ export const patchNewsSourcesValidator = (): any[] => {
       return value.every((element) => {
         return element.id && element.name;
       });
+    }),
+  ];
+};
+
+// This will determine that every incoming news source item in list array is
+// an approved source
+export const validateNewsSourcesValidator = (): any[] => {
+  return [
+    body("list").custom((value: { id: string; name: string }[], { req }) => {
+      if (value.length === 0 && req.body.option === "none") return true;
+      for (let listValue of value) {
+        if (!newsSources.includes(listValue.id)) return false;
+      }
+      return true;
     }),
   ];
 };
