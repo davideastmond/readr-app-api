@@ -5,11 +5,12 @@ import { IUserDocument } from "../../../models/user/user.schema.types";
 export const getFeed = async (req: Request, res: Response) => {
   try {
     const { user }: { user: IUserDocument } = res.locals as any;
+    const { pageSize } = req.body;
     const topics = user.configuration.topics;
 
     if (!topics || topics.length === 0) {
       const newsClient = new NewsClient();
-      const headlines = await newsClient.fetchHeadlines(35);
+      const headlines = await newsClient.fetchHeadlines(pageSize || 35);
       return res.status(200).send(headlines);
     } else {
       const newsClient = new NewsClient();

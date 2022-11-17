@@ -5,7 +5,8 @@ import { NEWS_SOURCES } from "../../../models/news/sources";
 export async function getHeadlines(req: Request, res: Response) {
   try {
     const newsClient = new NewsClient();
-    const headlines = await newsClient.fetchHeadlines();
+    const { pageSize } = req.body;
+    const headlines = await newsClient.fetchHeadlines(pageSize);
     return res.status(200).send(headlines);
   } catch (err) {
     return res.status(500).send({

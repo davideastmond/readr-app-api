@@ -2,7 +2,6 @@ import { body } from "express-validator";
 import { NEWS_SOURCES } from "../../../models/news/sources";
 
 const newsSources = Object.keys(NEWS_SOURCES);
-
 export const putBookmarkValidator = (): any[] => {
   return [
     body("url").exists().isURL().trim(),

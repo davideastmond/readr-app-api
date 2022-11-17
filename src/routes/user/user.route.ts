@@ -4,6 +4,7 @@ import {
   jwtVerifyMiddleWare,
 } from "../auth/controllers/jwt-middleware";
 import { validateAPIKey } from "../auth/validate-api-key";
+import { getPageSizeValidator } from "../common/validators/validators";
 import { validateRouteRequest } from "../validate-route-request/validate-route-request";
 import {
   deleteAllBookmarks,
@@ -115,5 +116,13 @@ router.patch(
   patchUserSources
 );
 // Get articles from newsApi based user's topics
-router.get("/feed", validateAPIKey, jwtVerifyMiddleWare, getUser, getFeed);
+router.get(
+  "/feed",
+  validateAPIKey,
+  jwtVerifyMiddleWare,
+  getPageSizeValidator(),
+  validateRouteRequest,
+  getUser,
+  getFeed
+);
 export default router;
