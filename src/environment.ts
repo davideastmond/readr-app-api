@@ -7,7 +7,7 @@ function isProduction() {
   return true;
 }
 export const ENV_PAGE_SIZE = {
-  feed: process.env.FEED_PAGE_SIZE ?? 30,
+  feed: 30,
   headlines: process.env.HEADLINES_PAGE_SIZE ?? 30,
 };
 export const IS_PRODUCTION = isProduction();
