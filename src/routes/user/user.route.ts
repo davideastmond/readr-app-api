@@ -12,7 +12,10 @@ import {
   deleteTopic,
 } from "./controllers/user.controller.delete";
 import { getFeed, getUserEmail } from "./controllers/user.controller.get";
-import { patchUserSources } from "./controllers/user.controller.patch";
+import {
+  patchUserPageSizes,
+  patchUserSources,
+} from "./controllers/user.controller.patch";
 import {
   addBookmark,
   putTopics,
@@ -21,6 +24,7 @@ import {
 import {
   deleteFavoriteArticleValidator,
   patchNewsSourcesValidator,
+  patchPageSizesValidator,
   putBookmarkValidator,
   putUpdatePasswordValidator,
   topicValidator,
@@ -124,5 +128,16 @@ router.get(
   validateRouteRequest,
   getUser,
   getFeed
+);
+
+// Allows user to set (patch) headlines and custom feed page sizing
+router.patch(
+  "/page_size",
+  validateAPIKey,
+  jwtVerifyMiddleWare,
+  patchPageSizesValidator(),
+  validateRouteRequest,
+  getUser,
+  patchUserPageSizes
 );
 export default router;

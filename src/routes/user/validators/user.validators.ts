@@ -59,3 +59,20 @@ export const validateNewsSourcesValidator = (): any[] => {
     }),
   ];
 };
+
+export const patchPageSizesValidator = (): any[] => {
+  return [
+    body("headlines")
+      .isInt()
+      .custom((value) => {
+        const PAGE_SIZE_NUMERIC_OPTIONS = [10, 20, 30, 40, 50, 60];
+        return PAGE_SIZE_NUMERIC_OPTIONS.includes(value);
+      }),
+    body("feed")
+      .isInt()
+      .custom((value) => {
+        const PAGE_SIZE_NUMERIC_OPTIONS = [10, 20, 30, 40, 50, 60];
+        return PAGE_SIZE_NUMERIC_OPTIONS.includes(value);
+      }),
+  ];
+};

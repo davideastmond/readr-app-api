@@ -5,10 +5,14 @@ import {
   deleteBookmarks,
 } from "../../controllers/user/delete/delete.bookmark.controller";
 import { deleteTopics } from "../../controllers/user/delete/delete.topics.controller";
-import { patchNewsSource } from "../../controllers/user/patch/patch.source.controller";
+import {
+  patchNewsSource,
+  patchPageSizes,
+} from "../../controllers/user/patch/patch.source.controller";
 import { putBookmark } from "../../controllers/user/put/put.bookmark.controller";
 import { putTopics } from "../../controllers/user/put/put.topics.controller";
 import { putUpdateUserPassword } from "../../controllers/user/put/put.update-password.controller";
+import { ENV_PAGE_SIZE } from "../../environment";
 
 import { IUser, IUserDocument, IUserModel } from "./user.schema.types";
 
@@ -51,6 +55,10 @@ const userSchema = new Schema<IUser, IUserModel>(
         ],
         default: [],
       },
+      pageSize: {
+        headlines: { type: Number, default: ENV_PAGE_SIZE.headlines },
+        feed: { type: Number, default: ENV_PAGE_SIZE.feed },
+      },
       sources: {
         option: {
           type: String,
@@ -78,6 +86,8 @@ userSchema.method("putBookmark", putBookmark);
 userSchema.method("putTopics", putTopics);
 userSchema.method("putUpdateUserPassword", putUpdateUserPassword);
 userSchema.method("patchNewsSource", patchNewsSource);
+userSchema.method("patchPageSizes", patchPageSizes);
+
 userSchema.static("createNewUser", createNewUser);
 
 export default userSchema;
