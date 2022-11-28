@@ -14,8 +14,6 @@ const newsApiKey = IS_PRODUCTION
 
 const newsSources = Object.keys(NEWS_SOURCES).join(",");
 const HEADLINES_PAGE_SIZE = parseInt(process.env.HEADLINES_PAGE_SIZE) || 20;
-const FEED_PAGE_SIZE = parseInt(process.env.FEED_PAGE_SIZE) || 10;
-
 export class NewsClient {
   private api;
 
@@ -39,11 +37,11 @@ export class NewsClient {
 
   public async fetchFeed(
     topics: string[],
-    user: IUserDocument | ISecureUser,
-    pageSize = FEED_PAGE_SIZE
+    user: IUserDocument | ISecureUser
   ): Promise<INewsApiResponse> {
     const requestQueue = topics.map((topic) => {
       const { from, to } = this.getDateRange();
+      const { feed: pageSize } = user.configuration.pageSize;
       return this.api({
         method: "GET",
         url: `everything?q=${topic}&from=${from}&to=${to}&sources=${this.extractUserSources(

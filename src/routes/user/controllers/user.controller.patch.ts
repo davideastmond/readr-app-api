@@ -22,3 +22,22 @@ export const patchUserSources = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const patchUserPageSizes = async (req: Request, res: Response) => {
+  const { user }: { user: IUserDocument } = res.locals as any;
+  try {
+    const { headlines, feed } = req.body;
+    const refreshedUser = await user.patchPageSizes({ headlines, feed });
+    return res.status(201).send(refreshedUser);
+  } catch (err: any) {
+    return res.status(500).send({
+      errors: [
+        {
+          msg: `${err.message}: Server error - patch pageSizeds`,
+          param: "n/a",
+          location: "pageSize patching",
+        },
+      ],
+    });
+  }
+};

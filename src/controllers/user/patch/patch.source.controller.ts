@@ -25,3 +25,16 @@ export async function patchNewsSource(
   const refreshedUser = await this.save();
   return UserUtils.toSecureUser(refreshedUser);
 }
+
+export async function patchPageSizes(
+  this: IUserDocument,
+  sourceData: {
+    headlines: number;
+    feed: number;
+  }
+): Promise<ISecureUser> {
+  this.configuration.pageSize.feed = sourceData.feed;
+  this.configuration.pageSize.headlines = sourceData.headlines;
+  const refreshedUser = await this.save();
+  return UserUtils.toSecureUser(refreshedUser);
+}

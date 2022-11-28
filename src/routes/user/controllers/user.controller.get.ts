@@ -7,9 +7,11 @@ export const getFeed = async (req: Request, res: Response) => {
     const { user }: { user: IUserDocument } = res.locals as any;
     const topics = user.configuration.topics;
 
+    const { headlines: pageSize } = user.configuration.pageSize;
+
     if (!topics || topics.length === 0) {
       const newsClient = new NewsClient();
-      const headlines = await newsClient.fetchHeadlines(35);
+      const headlines = await newsClient.fetchHeadlines(pageSize);
       return res.status(200).send(headlines);
     } else {
       const newsClient = new NewsClient();
@@ -23,6 +25,28 @@ export const getFeed = async (req: Request, res: Response) => {
           msg: `${err.message}: Server error - cannot get feed`,
           param: "n/a",
           location: "get feed",
+        },
+      ],
+    });
+  }
+};
+
+export const getUserHeadlines = async (req: Request, res: Response) => {
+  // Get the authenticated user's version of headlines so we can use their settings
+  // to control page size
+  try {
+    const { user }: { user: IUserDocument } = res.locals as any;
+    const { headlines: pageSize } = user.configuration.pageSize;
+    const newsClient: NewsClient = new NewsClient();
+    const headlines = await newsClient.fetchHeadlines(pageSize);
+    return res.status(200).send(headlines);
+  } catch (err) {
+    return res.status(500).send({
+      errors: [
+        {
+          msg: `${err.message}: Server error - cannot get user headlines`,
+          param: "n/a",
+          location: "get user headlines",
         },
       ],
     });
