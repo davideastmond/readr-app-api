@@ -2,6 +2,7 @@ import { body } from "express-validator";
 import { NEWS_SOURCES } from "../../../models/news/sources";
 
 const newsSources = Object.keys(NEWS_SOURCES);
+const PAGE_SIZE_NUMERIC_OPTIONS = [10, 20, 30, 40, 50, 60];
 export const putBookmarkValidator = (): any[] => {
   return [
     body("url").exists().isURL().trim(),
@@ -65,13 +66,11 @@ export const patchPageSizesValidator = (): any[] => {
     body("headlines")
       .isInt()
       .custom((value) => {
-        const PAGE_SIZE_NUMERIC_OPTIONS = [10, 20, 30, 40, 50, 60];
         return PAGE_SIZE_NUMERIC_OPTIONS.includes(value);
       }),
     body("feed")
       .isInt()
       .custom((value) => {
-        const PAGE_SIZE_NUMERIC_OPTIONS = [10, 20, 30, 40, 50, 60];
         return PAGE_SIZE_NUMERIC_OPTIONS.includes(value);
       }),
   ];
