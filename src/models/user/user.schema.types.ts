@@ -8,6 +8,10 @@ export interface IUser {
   configuration: {
     topics: string[];
     bookmarks: IArticleBookmark[];
+    pageSize: {
+      headlines: number;
+      feed: number;
+    };
     sources: {
       option: TCustomSourceFilter;
       list: INewsSource[];
@@ -36,6 +40,10 @@ export interface ISecureUser {
   configuration: {
     topics: string[];
     bookmarks: IArticleBookmark[];
+    pageSize: {
+      headlines: number;
+      feed: number;
+    };
     sources: {
       option: TCustomSourceFilter;
       list: INewsSource[];
@@ -71,6 +79,10 @@ export interface IUserDocument extends IUser, Document {
   patchNewsSource: (sourceData: {
     list: { id: string; name: string }[];
     option: string;
+  }) => Promise<ISecureUser>;
+  patchPageSizes: (sourceData: {
+    headlines: number;
+    feed: number;
   }) => Promise<ISecureUser>;
 }
 

@@ -4,14 +4,22 @@ import {
   jwtVerifyMiddleWare,
 } from "../auth/controllers/jwt-middleware";
 import { validateAPIKey } from "../auth/validate-api-key";
+import { getPageSizeValidator } from "../common/validators/validators";
 import { validateRouteRequest } from "../validate-route-request/validate-route-request";
 import {
   deleteAllBookmarks,
   deleteBookmark,
   deleteTopic,
 } from "./controllers/user.controller.delete";
-import { getFeed, getUserEmail } from "./controllers/user.controller.get";
-import { patchUserSources } from "./controllers/user.controller.patch";
+import {
+  getFeed,
+  getUserEmail,
+  getUserHeadlines,
+} from "./controllers/user.controller.get";
+import {
+  patchUserPageSizes,
+  patchUserSources,
+} from "./controllers/user.controller.patch";
 import {
   addBookmark,
   putTopics,
@@ -20,6 +28,7 @@ import {
 import {
   deleteFavoriteArticleValidator,
   patchNewsSourcesValidator,
+  patchPageSizesValidator,
   putBookmarkValidator,
   putUpdatePasswordValidator,
   topicValidator,
@@ -115,5 +124,33 @@ router.patch(
   patchUserSources
 );
 // Get articles from newsApi based user's topics
-router.get("/feed", validateAPIKey, jwtVerifyMiddleWare, getUser, getFeed);
+router.get(
+  "/feed",
+  validateAPIKey,
+  jwtVerifyMiddleWare,
+  getPageSizeValidator(),
+  validateRouteRequest,
+  getUser,
+  getFeed
+);
+
+router.get(
+  "/headlines",
+  validateAPIKey,
+  jwtVerifyMiddleWare,
+  validateRouteRequest,
+  getUser,
+  getUserHeadlines
+);
+
+// Allows user to set (patch) headlines and custom feed page sizing
+router.patch(
+  "/page_size",
+  validateAPIKey,
+  jwtVerifyMiddleWare,
+  patchPageSizesValidator(),
+  validateRouteRequest,
+  getUser,
+  patchUserPageSizes
+);
 export default router;
